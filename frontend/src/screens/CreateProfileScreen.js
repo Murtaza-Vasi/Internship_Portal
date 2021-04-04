@@ -1,5 +1,5 @@
 import { Grid, Container, Button, CircularProgress } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import useStyles from '../styles/CreateProfile';
@@ -13,14 +13,14 @@ const CreateProfileScreen = ({ history }) => {
   const classes = useStyles();
 
   const [loading, setLoading] = useState(false);
-  const storedUser = JSON.parse(localStorage.getItem('userInfo'));
+  const storedUserId = JSON.parse(localStorage.getItem('userId'));
 
-  if (!storedUser) {
+  if (!storedUserId) {
     history.push('/');
     alert('Session timeout please login again');
   }
 
-  const [user, setUser] = useState(storedUser);
+  const [profile, setProfile] = useState({});
   const [uni, setUni] = useState('');
   const [eDesc, setEDesc] = useState('');
   const [project, setProject] = useState('');
@@ -37,12 +37,11 @@ const CreateProfileScreen = ({ history }) => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    const newUser = {
-      ...user,
+    const newProfile = {
       profile: {
-        ...user.profile,
+        ...profile,
         basicInfo: {
-          ...user.profile.basicInfo,
+          ...profile.basicInfo,
           age: age,
           ctc: ctc,
           email: email,
@@ -65,14 +64,14 @@ const CreateProfileScreen = ({ history }) => {
       },
     };
 
-    setUser(newUser);
+    setProfile(newProfile);
 
     try {
       setLoading(true);
 
       await axios.patch(
-        `http://localhost:5000/auth/update-profile/${user._id}`,
-        newUser.profile
+        `http://localhost:5000/auth/update-profile/${storedUserId}`,
+        newProfile
       );
 
       setLoading(false);
@@ -82,20 +81,33 @@ const CreateProfileScreen = ({ history }) => {
     }
   };
 
+  useEffect(async () => {
+    try {
+      setLoading(true);
+
+      const profile = await axios.get(
+        `http://localhost:5000/user/get-profile/${storedUserId}`
+      );
+
+      setProfile(profile);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+  });
+
   const onChangeHandler = (data) => {
-    setUser({
-      ...user,
-      profile: { ...user.profile, ...data.profile },
+    setProfile({
+      profile: { ...profile, ...data.profile },
     });
   };
 
   const onChangeSkillHandler = (data) => {
     const newSkill = data.profile.skills;
-    const skillList = user.profile.skills.concat(newSkill);
+    const skillList = profile.skills.concat(newSkill);
 
-    setUser({
-      ...user,
-      profile: { ...user.profile, skills: skillList },
+    setProfile({
+      profile: { ...profile, skills: skillList },
     });
   };
 

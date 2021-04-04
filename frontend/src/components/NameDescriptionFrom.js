@@ -10,14 +10,8 @@ const NameDescriptionFrom = ({
   nameValue,
   nameValueChangeHandler,
   descValue,
-  descValueChangeHandler
+  descValueChangeHandler,
 }) => {
-  // const storedUser = JSON.parse(localStorage.getItem('userInfo'));
-  // if (!storedUser) {
-  //   history.push('/');
-  //   alert('Session timeout please login again');
-  // }
-
   const classes = useStyles();
 
   let updateName;

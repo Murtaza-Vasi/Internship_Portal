@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
+import axios from 'axios';
 import EmailIcon from '@material-ui/icons/Email';
 import {
   Container,
   Avatar,
   Grid,
-  makeStyles,
   Paper,
   Typography,
   Box,
   Button,
+  CircularProgress,
 } from '@material-ui/core';
 
 import useStyles from '../styles/Profile';
@@ -244,19 +245,32 @@ const CertyInfo = ({ certiName, description }) => {
 };
 
 const ProfileScreen = ({ history }) => {
-  const storedUser = JSON.parse(localStorage.getItem('userInfo'));
+  const storedUserId = JSON.parse(localStorage.getItem('userId'));
 
-  if (!storedUser) {
+  if (!storedUserId) {
     history.push('/');
     alert('Session timeout please login again');
   }
 
-  const [user, setUser] = useState(storedUser);
-  const [profile, setProfile] = useState(storedUser.profile);
+  const [profile, setProfile] = useState({});
+  const [loading, setLoading] = useState(false);
 
-  const checkInfoStatus = () => {
-    // check profile items are defined or not if defined then return true else false
-  }
+  useEffect(async () => {
+    try {
+      setLoading(true);
+      const userProfile = await axios.get(
+        `http://localhost:5000/user/get-profile/${storedUserId}`
+      );
+
+      setProfile(userProfile);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  });
+
+  const checkInfoStatus = () => {};
 
   if (checkInfoStatus()) {
     history.push('/create-profile');
@@ -270,6 +284,7 @@ const ProfileScreen = ({ history }) => {
   return (
     <div className={classes.root}>
       <Container>
+        {loading && <CircularProgress />}
         <Grid container justify='space-evenly' spacing={6}>
           <Grid item lg={4} md={4}>
             <Paper>

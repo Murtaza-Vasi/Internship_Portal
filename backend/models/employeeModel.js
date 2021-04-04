@@ -16,41 +16,30 @@ const employeeSchema = mongoose.Schema(
       type: String,
       require: true,
     },
-    jobInfo: {
-      jobTitle: {
-        type: String,
-        require: true,
-      },
-      jobType: {
-        type: String,
-        require: true,
-      },
-      jobDescription: {
-        type: String,
-        require: true,
-      },
+    profileInfo: {
       companyName: {
         type: String,
-        require: true,
+      },
+      companyLocation: {
+        type: String,
       },
       companyURL: {
         type: String,
-        require: true,
       },
-      workType: {
+      companyDescription: {
         type: String,
-        require: true,
-      },
-      payScale: {
-        type: String,
-        require: true,
       },
     },
+    jobsPosted: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Employee' }],
   },
   {
     timeStamps: true,
   }
 );
+
+employeeSchema.methods.matchPassword = function (enteredPassword) {
+  return bcrypt.compare(enteredPassword, this.passwordHash);
+};
 
 employeeSchema.pre('save', async function (next) {
   if (!this.isModified('passwordHash')) {

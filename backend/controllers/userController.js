@@ -1,20 +1,19 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import asyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
 
 // DESC     Create a new user
 // ROUTE    POST /
 // Access   Public
 
-export const register = async (req, res) => {
+export const register = asyncHandler(async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
     const existingUser = await User.findOne({ email });
     if (existingUser)
-      return res.status(400).json({
-        errorMessage: 'An account with this email already exists.',
-      });
+      throw new Error('An account with this email already exists.');
 
     // Hash the password
     const salt = await bcrypt.genSalt();
@@ -46,17 +45,16 @@ export const register = async (req, res) => {
         email: user.email,
         profile: user.profile,
       });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send();
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
-};
+});
 
 // DESC     Login user
 // ROUTE    POST /login
 // Access   Public
 
-export const login = async (req, res) => {
+export const login = asyncHandler(async (req, res) => {
   try {
     const { email, password } = req.body;
     const existingUser = await User.findOne({ email });
@@ -76,31 +74,28 @@ export const login = async (req, res) => {
           profile: existingUser.profile,
         });
     } else {
-      return res
-        .status(400)
-        .json({ errorMessage: 'Invalid email or password' });
+      throw new Error('Invalid email or password');
     }
-  } catch (err) {
-    console.error(err);
-    res.status(500).send();
+  } catch (error) {
+    res.status(500).json({ error: error.message, stack: error.stack });
   }
-};
+});
 
 // DESC     Logout a user
 // ROUTE    POST /logout
 // Access   Public
 
-export const logout = (req, res) => {
+export const logout = asyncHandler((req, res) => {
   res
     .clearCookie('token', {
       maxAge: 90000,
       httpOnly: true,
     })
     .send();
-};
+});
 
 // For protecting private routes
-export const loggedIn = (req, res) => {
+export const loggedIn = asyncHandler((req, res) => {
   console.log(`Hello ${req.cookies.tokens}`);
   try {
     let token = req.cookies.token;
@@ -113,13 +108,13 @@ export const loggedIn = (req, res) => {
   } catch (err) {
     res.json(false);
   }
-};
+});
 
 // DESC     Update user profile
 // ROUTE    POST /update-profile
 // Access   Public
 
-export const updateProfile = async (req, res) => {
+export const updateProfile = asyncHandler(async (req, res) => {
   const { profile } = req.body;
 
   try {
@@ -134,7 +129,7 @@ export const updateProfile = async (req, res) => {
       }
     );
 
-    console.log(updatedProfile);
+    // console.log(updatedProfile);
 
     res.status(200).json({
       _id: updatedProfile._id,
@@ -142,30 +137,28 @@ export const updateProfile = async (req, res) => {
       email: updatedProfile.email,
       profile: updatedProfile.profile,
     });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send();
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
-};
+});
 
 // DESC     Get user profile
 // ROUTE    GET /get-profile/:id
 // ACCESS   Private
 
-export const getProfile = async (req, res) => {
+export const getProfile = asyncHandler(async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
 
     if (!user) {
       res.status(404);
-      res.send('No User with this id');
+      throw new Error('No user with this id');
     }
 
     res.json({
       profile: user.profile,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ error });
+    res.status(500).json({ error: error.message });
   }
-};
+});

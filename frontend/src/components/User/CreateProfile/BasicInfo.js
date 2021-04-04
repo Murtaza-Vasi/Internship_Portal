@@ -28,44 +28,6 @@ const BasicInfo = ({
   phoneno,
   setPhoneNo,
 }) => {
-  // const storedUser = JSON.parse(localStorage.getItem('userInfo'));
-  // if (!storedUser) {
-  //   history.push('/');
-  //   alert('Session timeout please login again');
-  // }
-
-  // const [user, setUser] = useState(storedUser);
-
-  // // console.log('BASIC INFO ', user.profile.basicInfo);
-
-  // const [age, setAge] = useState(
-  //   user.profile.basicInfo !== undefined ? user.profile.basicInfo.age : null
-  // );
-
-  // const [phoneNo, setPhoneNo] = useState(
-  //   user.profile.basicInfo !== undefined ? user.profile.basicInfo.phoneNo : null
-  // );
-
-  // const [experiance, setExperiance] = useState(
-  //   user.profile.basicInfo !== undefined
-  //     ? user.profile.basicInfo.experiance
-  //     : null
-  // );
-
-  // const [ctc, setCTC] = useState(
-  //   user.profile.basicInfo !== undefined ? user.profile.basicInfo.ctc : null
-  // );
-
-  // const [location, setLocation] = useState(
-  //   user.profile.basicInfo !== undefined
-  //     ? user.profile.basicInfo.location
-  //     : null
-  // );
-
-  // const [email, setEmail] = useState(
-  //   user.profile.basicInfo !== undefined ? user.profile.basicInfo.email : null
-  // );
-
   const classes = useStyles();
 
   return (

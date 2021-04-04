@@ -31,17 +31,15 @@ const LoginScreen = ({ student, history }) => {
 
       if (student) {
         const createdUser = await axios.post(
-          'http://localhost:5000/auth/login',
-          loginData,
-          {
-            withCredentials: true,
-          }
+          'http://localhost:5000/user/login',
+          loginData
         );
 
         setLoading(false);
-        localStorage.setItem('userInfo', JSON.stringify(createdUser.data));
+        localStorage.setItem('userId', JSON.stringify(createdUser.data._id));
         history.push('/user');
       } else {
+        // If employee then make request to the employees login in the backend
         // const createdUser = await axios.post(
         //   'http://localhost:5000/auth/login',
         //   loginData,

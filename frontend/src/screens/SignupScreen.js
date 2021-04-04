@@ -29,11 +29,8 @@ const SignupScreen = ({ student, history }) => {
 
       if (student) {
         const data = await axios.post(
-          'http://localhost:5000/auth/',
-          registerData,
-          {
-            withCredentials: true,
-          }
+          'http://localhost:5000/user/',
+          registerData
         );
 
         if (data) {
