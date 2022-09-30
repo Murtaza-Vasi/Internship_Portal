@@ -35,21 +35,23 @@ const LoginScreen = ({ student, history }) => {
           loginData
         );
 
-        setLoading(false);
         localStorage.setItem('userId', JSON.stringify(createdUser.data._id));
         history.push('/user');
       } else {
         // If employee then make request to the employees login in the backend
-        // const createdUser = await axios.post(
-        //   'http://localhost:5000/auth/login',
-        //   loginData,
-        //   {
-        //     withCredentials: true,
-        //   }
-        // );
-        // localStorage.setItem('userInfo', JSON.stringify(createdUser.data));
-        // history.push('/user');
+
+        const createdEmployee = await axios.post(
+          'http://localhost:5000/employee/login',
+          loginData
+        );
+
+        localStorage.setItem(
+          'employeeId',
+          JSON.stringify(createdEmployee.data._id)
+        );
+        history.push('/employee');
       }
+      setLoading(false);
     } catch (err) {
       setLoading(false);
       console.error(err);

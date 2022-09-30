@@ -1,25 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import { Grid, InputBase, Paper, Typography } from '@material-ui/core';
 
-import useStyles from '../../../styles/CreateProfile';
+import useStyles from '../../../styles/User/ProfileForm';
 
-const FormInfo = ({ history, onChangeHandler }) => {
-  const storedUser = JSON.parse(localStorage.getItem('userInfo'));
-
-  if (!storedUser) {
-    history.push('/');
-    alert('Session timeout please login again');
-  }
-
-  const [user, setUser] = useState(storedUser);
-  const [name, setName] = useState(user.profile.name ? user.profile.name : '');
-  const [title, setTitle] = useState(
-    user.profile.title ? user.profile.title : ''
-  );
-  const [desc, setDesc] = useState(
-    user.profile.description ? user.profile.description : ''
-  );
-
+const FormInfo = ({ name, setName, title, setTitle, desc, setDesc }) => {
   const classes = useStyles();
 
   return (
@@ -29,14 +13,8 @@ const FormInfo = ({ history, onChangeHandler }) => {
           <Paper>
             <Typography className={classes.finput}>
               <InputBase
-                onChange={(e) => {
-                  let user = {
-                    profile: {
-                      name: e.target.value,
-                    },
-                  };
-                  onChangeHandler(user);
-                }}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 fullWidth
                 placeholder='Name*'
               />
@@ -47,15 +25,8 @@ const FormInfo = ({ history, onChangeHandler }) => {
           <Paper>
             <Typography className={classes.finput}>
               <InputBase
-                // value={title}
-                onChange={(e) => {
-                  let user = {
-                    profile: {
-                      title: e.target.value,
-                    },
-                  };
-                  onChangeHandler(user);
-                }}
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
                 fullWidth
                 placeholder='Title*'
               />
@@ -68,15 +39,8 @@ const FormInfo = ({ history, onChangeHandler }) => {
               <InputBase
                 fullWidth
                 multiline
-                // value={description}
-                onChange={(e) => {
-                  let user = {
-                    profile: {
-                      description: e.target.value,
-                    },
-                  };
-                  onChangeHandler(user);
-                }}
+                value={desc}
+                onChange={(e) => setDesc(e.target.value)}
                 rows={4}
                 placeholder='Description*'
               />

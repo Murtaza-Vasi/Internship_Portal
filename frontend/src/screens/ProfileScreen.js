@@ -13,7 +13,7 @@ import {
   CircularProgress,
 } from '@material-ui/core';
 
-import useStyles from '../styles/Profile';
+import useStyles from '../styles/User/Profile';
 
 const SideBar = ({ name, title, description, photo }) => {
   const classes = useStyles();
@@ -252,8 +252,67 @@ const ProfileScreen = ({ history }) => {
     alert('Session timeout please login again');
   }
 
-  const [profile, setProfile] = useState({});
+  // const [profile, setProfile] = useState({});
+  const [name, setName] = useState('');
+  const [title, setTitle] = useState('');
+  const [desc, setDesc] = useState('');
+  const [uni, setUni] = useState('');
+  const [eDesc, setEDesc] = useState('');
+  const [project, setProject] = useState('');
+  const [pDesc, setPDesc] = useState('');
+  const [certiName, setCertiName] = useState('');
+  const [cDesc, setCDesc] = useState('');
+  const [age, setAge] = useState(0);
+  const [ctc, setCTC] = useState('');
+  const [email, setEmail] = useState('');
+  const [experiance, setExperiance] = useState('');
+  const [location, setLocation] = useState('');
+  const [phoneno, setPhoneNo] = useState('');
   const [loading, setLoading] = useState(false);
+
+  // Checking if the data is undefined or not and if it is not defined pushing the user to the create profile page
+
+  const setData = (data) => {
+    setName(data.name);
+    setTitle(data.title);
+    setDesc(data.description);
+
+    // Setting the basic info
+    if (data.basicInfo === undefined) {
+      history.push('/create-profile');
+    } else {
+      setAge(data.basicInfo.age);
+      setCTC(data.basicInfo.ctc);
+      setEmail(data.basicInfo.email);
+      setLocation(data.basicInfo.location);
+      setPhoneNo(data.basicInfo.phoneno);
+      setExperiance(data.basicInfo.experiance);
+    }
+
+    // setting the university info
+    if (data.education === undefined) {
+      history.push('/create-profile');
+    } else {
+      setUni(data.education.univeristy);
+      setEDesc(data.education.edescription);
+    }
+
+    // setting the project info
+    if (data.projects === undefined) {
+      history.push('/create-profile');
+    } else {
+      setProject(data.projects.projectname);
+      setPDesc(data.projects.pdescription);
+    }
+
+    // setting the certification info
+    if (data.certification === undefined) {
+      history.push('/create-profile');
+    } else {
+      setCertiName(data.certification.certiname);
+      setCDesc(data.certification.cdescription);
+    }
+  };
 
   useEffect(async () => {
     try {
@@ -262,73 +321,60 @@ const ProfileScreen = ({ history }) => {
         `http://localhost:5000/user/get-profile/${storedUserId}`
       );
 
-      setProfile(userProfile);
+      console.log('USER PROFILE :', userProfile.data.profile);
+      setData(userProfile.data.profile);
+
       setLoading(false);
     } catch (error) {
       setLoading(false);
       console.log(error);
     }
-  });
-
-  const checkInfoStatus = () => {};
-
-  if (checkInfoStatus()) {
-    history.push('/create-profile');
-    // redirect user to create profile
-  } else {
-    // render the user profile page
-  }
+  }, []);
 
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
       <Container>
-        {loading && <CircularProgress />}
-        <Grid container justify='space-evenly' spacing={6}>
-          <Grid item lg={4} md={4}>
-            <Paper>
-              <SideBar
-                name={profile.name}
-                title={profile.title}
-                description={profile.description}
-                photo={profile.photo}
-              />
-            </Paper>
-          </Grid>
-          <Grid item lg={8} md={7}>
-            <Grid direction='column' container spacing={8}>
-              <Grid item>
-                <BasicInfo
-                  age={profile.basicInfo.age}
-                  phoneNo={profile.basicInfo.phoneno}
-                  experiance={profile.basicInfo.experiance}
-                  ctc={profile.basicInfo.ctc}
-                  location={profile.basicInfo.location}
-                  email={profile.basicInfo.email}
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          <Grid container justify='space-evenly' spacing={6}>
+            <Grid item lg={4} md={4}>
+              <Paper>
+                <SideBar
+                  name={name}
+                  title={title}
+                  description={desc}
+                  // photo={photo}
                 />
-              </Grid>
-              <Grid item>
-                <EduInfo
-                  univeristyName={profile.education.univeristy}
-                  description={profile.education.edescription}
-                />
-              </Grid>
-              <Grid item>
-                <ProjectInfo
-                  projectName={profile.projects.projectname}
-                  description={profile.projects.pdescription}
-                />
-              </Grid>
-              <Grid item>
-                <CertyInfo
-                  certiName={profile.certification.certiname}
-                  description={profile.certification.cdescription}
-                />
+              </Paper>
+            </Grid>
+            <Grid item lg={8} md={7}>
+              <Grid direction='column' container spacing={8}>
+                <Grid item>
+                  <BasicInfo
+                    age={age}
+                    phoneNo={phoneno}
+                    experiance={experiance}
+                    ctc={ctc}
+                    location={location}
+                    email={email}
+                  />
+                </Grid>
+                <Grid item>
+                  <EduInfo univeristyName={uni} description={eDesc} />
+                </Grid>
+                <Grid item>
+                  <ProjectInfo projectName={project} description={pDesc} />
+                </Grid>
+                <Grid item>
+                  <CertyInfo certiName={certiName} description={cDesc} />
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        )}
       </Container>
     </div>
   );

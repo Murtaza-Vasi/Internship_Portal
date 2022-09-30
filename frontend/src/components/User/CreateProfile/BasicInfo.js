@@ -10,11 +10,10 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import PhoneIcon from '@material-ui/icons/Phone';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import EmailIcon from '@material-ui/icons/Email';
-import useStyles from '../../../styles/CreateProfile';
+import useStyles from '../../../styles/User/ProfileForm';
 import FormContainer from '../../FromContainer';
 
 const BasicInfo = ({
-  history,
   age,
   setAge,
   experiance,
@@ -53,6 +52,7 @@ const BasicInfo = ({
             className={classes.info}
             onChange={(e) => setPhoneNo(e.target.value)}
             placeholder='Phone No. '
+            value={phoneno}
           />
         </Grid>
         <Grid item lg={3} xl={12}>
@@ -91,6 +91,7 @@ const BasicInfo = ({
             className={classes.info}
             placeholder='Location'
             onChange={(e) => setLocation(e.target.value)}
+            value={location}
           />
         </Grid>
         <Grid item lg={3} xl={12}>
@@ -98,6 +99,7 @@ const BasicInfo = ({
             className={classes.info}
             placeholder='Email ID'
             onChange={(e) => setEmail(e.target.value)}
+            value={email}
           />
         </Grid>
       </Grid>

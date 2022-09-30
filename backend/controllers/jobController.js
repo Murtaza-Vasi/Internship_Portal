@@ -28,6 +28,7 @@ export const postJob = asyncHandler(async (req, res) => {
       companyURL,
       workType,
       payScale,
+      skills,
     } = req.body;
 
     let job = Job({
@@ -38,11 +39,12 @@ export const postJob = asyncHandler(async (req, res) => {
       companyURL,
       workType,
       payScale,
+      skills,
     });
 
     job = await job.save();
-
-    res.status(201).json({ job: job });
+    console.log(job._id);
+    res.status(201).json({ id: job._id, job: job });
   } catch (error) {
     res.json({ error: error.message });
   }

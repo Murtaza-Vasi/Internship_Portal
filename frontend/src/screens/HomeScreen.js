@@ -16,7 +16,7 @@ import Marketing from '../images/Marketing.png';
 import Management from '../images/Management.png';
 import Logo from '../images/Home-illustration.png';
 
-import useStyles from '../styles/Home';
+import useStyles from '../styles/Home/Home';
 
 const HomeScreen = () => {
   const classes = useStyles();

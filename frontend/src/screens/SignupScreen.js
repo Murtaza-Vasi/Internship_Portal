@@ -33,18 +33,25 @@ const SignupScreen = ({ student, history }) => {
           registerData
         );
 
-        if (data) {
+        if (data.data) {
           setLoading(false);
         }
 
         history.push('/studentlogin');
       } else {
-        // await axios.post('http://localhost:5000/auth/', registerData, {
-        //   withCredentials: true,
-        // });
-        // history.push('/studentlogin');
+        const data = await axios.post(
+          'http://localhost:5000/employee/',
+          registerData
+        );
+
+        if (data.data) {
+          setLoading(false);
+        }
+        history.push('/employeelogin');
       }
+      setLoading(false);
     } catch (err) {
+      setLoading(false);
       console.error(err);
     }
   };

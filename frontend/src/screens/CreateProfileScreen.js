@@ -2,7 +2,7 @@ import { Grid, Container, Button, CircularProgress } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-import useStyles from '../styles/CreateProfile';
+import useStyles from '../styles/User/ProfileForm';
 import Image from '../components/User/CreateProfile/Image';
 import FormInfo from '../components/User/CreateProfile/FormInfo';
 import Skills from '../components/User/CreateProfile/Skills';
@@ -21,6 +21,10 @@ const CreateProfileScreen = ({ history }) => {
   }
 
   const [profile, setProfile] = useState({});
+  const [name, setName] = useState('');
+  const [title, setTitle] = useState('');
+  const [desc, setDesc] = useState('');
+  const [skills, setSkills] = useState([]);
   const [uni, setUni] = useState('');
   const [eDesc, setEDesc] = useState('');
   const [project, setProject] = useState('');
@@ -37,9 +41,15 @@ const CreateProfileScreen = ({ history }) => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
+    console.log('FROM SUBMIT HANDLER PROFILE :', profile);
+
     const newProfile = {
       profile: {
-        ...profile,
+        // ...profile,
+        name: name,
+        title: title,
+        description: desc,
+        skills: skills,
         basicInfo: {
           ...profile.basicInfo,
           age: age,
@@ -68,9 +78,9 @@ const CreateProfileScreen = ({ history }) => {
 
     try {
       setLoading(true);
-
+      console.log('NEW PROFILE', newProfile);
       await axios.patch(
-        `http://localhost:5000/auth/update-profile/${storedUserId}`,
+        `http://localhost:5000/user/update-profile/${storedUserId}`,
         newProfile
       );
 
@@ -85,44 +95,63 @@ const CreateProfileScreen = ({ history }) => {
     try {
       setLoading(true);
 
-      const profile = await axios.get(
+      const data = await axios.get(
         `http://localhost:5000/user/get-profile/${storedUserId}`
       );
+      // console.log('NAME ', data.data.name);
+      setProfile(data.data);
 
-      setProfile(profile);
+      setName(data.data.profile.name);
+      setTitle(data.data.profile.title);
+      setDesc(data.data.profile.description);
+
+      // Setting the basic info
+      setAge(data.data.profile.basicInfo.age);
+      setCTC(data.data.profile.basicInfo.ctc);
+      setEmail(data.data.profile.basicInfo.email);
+      setLocation(data.data.profile.basicInfo.location);
+      setPhoneNo(data.data.profile.basicInfo.phoneno);
+      setExperiance(data.data.profile.basicInfo.experiance);
+
+      setSkills(data.data.profile.skills);
+
+      // setting the university info
+      setUni(data.data.profile.education.univeristy);
+      setEDesc(data.data.profile.education.edescription);
+
+      // setting the project info
+      setProject(data.data.profile.projects.projectname);
+      setPDesc(data.data.profile.projects.pdescription);
+
+      // setting the certification info
+      setCertiName(data.data.profile.certification.certiname);
+      setCDesc(data.data.profile.certification.cdescription);
+
       setLoading(false);
     } catch (error) {
       setLoading(false);
     }
-  });
-
-  const onChangeHandler = (data) => {
-    setProfile({
-      profile: { ...profile, ...data.profile },
-    });
-  };
-
-  const onChangeSkillHandler = (data) => {
-    const newSkill = data.profile.skills;
-    const skillList = profile.skills.concat(newSkill);
-
-    setProfile({
-      profile: { ...profile, skills: skillList },
-    });
-  };
+  }, []);
 
   return (
     <div className={classes.root}>
       <Container>
         <Grid container spacing={4}>
           <Grid lg={2}>
-            <Image onChangeHandler={onChangeHandler} />
+            <Image />
           </Grid>
           <Grid lg={8}>
-            <FormInfo onChangeHandler={onChangeHandler} />
+            <FormInfo
+              name={name}
+              setName={setName}
+              title={title}
+              setTitle={setTitle}
+              desc={desc}
+              setDesc={setDesc}
+            />
           </Grid>
           <Grid item lg={12}>
-            <Skills onChangeSkillHandler={onChangeSkillHandler} />
+            <Skills skills={skills} setSkills={setSkills} />
           </Grid>
           <Grid item lg={12}>
             <BasicInfo
@@ -142,7 +171,7 @@ const CreateProfileScreen = ({ history }) => {
           </Grid>
           <Grid item lg={12}>
             <NameDescriptionFrom
-              name='education'
+              name='Education'
               nameValue={uni}
               nameValueChangeHandler={setUni}
               descValue={eDesc}
@@ -151,7 +180,7 @@ const CreateProfileScreen = ({ history }) => {
           </Grid>
           <Grid item lg={12}>
             <NameDescriptionFrom
-              name='project'
+              name='Project'
               nameValue={project}
               nameValueChangeHandler={setProject}
               descValue={pDesc}
@@ -160,7 +189,7 @@ const CreateProfileScreen = ({ history }) => {
           </Grid>
           <Grid item lg={12}>
             <NameDescriptionFrom
-              name='certification'
+              name='Certification'
               nameValue={certiName}
               nameValueChangeHandler={setCertiName}
               descValue={cDesc}

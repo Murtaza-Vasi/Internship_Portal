@@ -1,11 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { Avatar, Fab, Grid } from '@material-ui/core';
-import useStyles from '../../../styles/CreateProfile';
+import useStyles from '../../../styles/User/ProfileForm';
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
-import { ProfileContext } from './CreateProfile';
 
-const Image = ({history}) => {
-  const storedUser = JSON.parse(localStorage.getItem('userInfo'));
+const Image = ({ history }) => {
+  const storedUser = JSON.parse(localStorage.getItem('userId'));
 
   if (!storedUser) {
     history.push('/');
@@ -14,9 +13,9 @@ const Image = ({history}) => {
 
   const [user, setUser] = useState(storedUser);
   // const [image, setImage] = useState(user.profile.image)
-  
+
   const classes = useStyles();
-  const profileContext = useContext(ProfileContext);
+
   return (
     <div>
       <Grid
@@ -26,12 +25,12 @@ const Image = ({history}) => {
         justify='center'
       >
         <input
-          onChange={(e) =>
-            profileContext.dispatch({
-              type: 'update-photo',
-              payload: e.target.value,
-            })
-          }
+          // onChange={(e) =>
+          //   profileContext.dispatch({
+          //     type: 'update-photo',
+          //     payload: e.target.value,
+          //   })
+          // }
           accept='image/*'
           className={classes.input}
           id='contained-button-file'

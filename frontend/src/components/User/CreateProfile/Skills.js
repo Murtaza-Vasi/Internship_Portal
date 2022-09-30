@@ -1,22 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import { Button, Grid, Typography } from '@material-ui/core';
 
-import useStyles from '../../../styles/CreateProfile';
+import useStyles from '../../../styles/User/ProfileForm';
 import FormContainer from '../../FromContainer';
 
-const Skills = ({ history, onChangeSkillHandler }) => {
-  const storedUser = JSON.parse(localStorage.getItem('userInfo'));
-
-  if (!storedUser) {
-    history.push('/');
-    alert('Session timeout please login again');
-  }
-
-  const [user, setUser] = useState(storedUser);
-  const [skills, setSkills] = useState(
-    user.profile.skills ? user.profile.skills : []
-  );
-
+const Skills = ({ skills, setSkills }) => {
   const classes = useStyles();
   const skillsList = [
     'JavaScript',
@@ -31,19 +19,7 @@ const Skills = ({ history, onChangeSkillHandler }) => {
     return (
       <Grid item key={index}>
         <Typography className={classes.skill}>
-          <Button
-            onClick={(e) => {
-              console.log(e.target);
-              let user = {
-                profile: {
-                  skills: skill,
-                },
-              };
-              onChangeSkillHandler(user);
-            }}
-          >
-            {skill}
-          </Button>
+          <Button onClick={() => setSkills([...skills, skill])}>{skill}</Button>
         </Typography>
       </Grid>
     );

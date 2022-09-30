@@ -77,3 +77,33 @@ export const getEmployeeDetails = asyncHandler(async (req, res) => {
     res.json({ error: error.message });
   }
 });
+
+// DESC     Update employee details
+// ROUTE    PATCH /employee/profile/:id
+// ACCESS   Private
+
+export const updateEmployeeProfile = asyncHandler(async (req, res) => {
+  try {
+    const { companyInfo, jobsPosted } = req.body;
+
+    let employee = await Employee.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        $set: {
+          companyInfo: {
+            ...companyInfo,
+          },
+          jobsPosted: [...jobsPosted],
+        },
+      }
+    );
+
+    if (!employee) {
+      throw new Error('Update Failed');
+    }
+
+    res.json({ employee: employee });
+  } catch (error) {
+    res.json({ error: error.message });
+  }
+});

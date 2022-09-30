@@ -4,13 +4,13 @@ import {
   makeStyles,
   Typography,
   useTheme,
-} from "@material-ui/core";
-import React from "react";
-import Aboutimg from "../images/about .svg";
-import Aash from "../images/aash.png";
-import Smit from "../images/smit.png";
-import zeel from "../images/zeel.png";
-import useStyles from "../styles/About";
+} from '@material-ui/core';
+import React from 'react';
+import Aboutimg from '../images/about .svg';
+import Aash from '../images/aash.png';
+import Smit from '../images/smit.png';
+import zeel from '../images/zeel.png';
+import useStyles from '../styles/About/About';
 
 const AboutUsScreen = () => {
   const classes = useStyles();
@@ -20,7 +20,7 @@ const AboutUsScreen = () => {
       <Container>
         <Grid
           className={classes.container}
-          justify="space-between"
+          justify='space-between'
           container
           spacing={3}
         >
@@ -55,26 +55,26 @@ const AboutUsScreen = () => {
         </Grid>
         <Grid
           className={classes.ourPic}
-          justify="space-around"
+          justify='space-around'
           container
           spacing={3}
         >
           <Grid item lg={4} sm={12} md={6} xl={12}>
             <img src={Smit} alt='SmitShah' />
-            <Typography variant="h6">SMIT SHAH</Typography>
-            <Typography variant="subtitle1">
+            <Typography variant='h6'>SMIT SHAH</Typography>
+            <Typography variant='subtitle1'>
               FULL-STACK WEB DEVELOPER
             </Typography>
           </Grid>
           <Grid item lg={4} sm={12} md={6} xl={12}>
             <img src={zeel} alt='ZeelPatel' />
-            <Typography variant="h6">ZEEL PATEL</Typography>
-            <Typography variant="subtitle1">WEB DEVELOPER</Typography>
+            <Typography variant='h6'>ZEEL PATEL</Typography>
+            <Typography variant='subtitle1'>WEB DEVELOPER</Typography>
           </Grid>
           <Grid item lg={4} sm={12} md={6} xl={12}>
             <img src={Aash} alt='AashShah' />
-            <Typography variant="h6">AASH SHAH</Typography>
-            <Typography variant="subtitle1">WEB DEVELOPER</Typography>
+            <Typography variant='h6'>AASH SHAH</Typography>
+            <Typography variant='subtitle1'>WEB DEVELOPER</Typography>
           </Grid>
         </Grid>
       </Container>

@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import Axios from 'axios';
 import { useHistory } from 'react-router';
 import { Avatar, Button, Menu, MenuItem } from '@material-ui/core';
-import useStyles from '../../styles/User/Profile';
-import Internship from '../../screens/InternshipScreen';
+import Axios from 'axios';
 
-const User = () => {
+import useStyles from '../styles/Employee/EmployeeHeader';
+
+const EmployeeHeader = () => {
   const classes = useStyles();
-
   const [anchor, setAnchor] = useState(null);
   const history = useHistory();
 
@@ -21,14 +20,13 @@ const User = () => {
   };
 
   const logOut = async () => {
-    await Axios.get('http://localhost:5000/auth/logout');
+    await Axios.get('http://localhost:5000/employee/logout');
     history.push('/');
   };
-
   return (
-    <div className={classes.root}>
+    <div>
       <Button onClick={handleClick}>
-        <Avatar className={classes.profilePic}>S</Avatar>
+        <Avatar className={classes.profile}>S</Avatar>
       </Button>
       <Menu
         anchorEl={anchor}
@@ -36,16 +34,13 @@ const User = () => {
         open={Boolean(anchor)}
         onClose={handleClose}
       >
-        <MenuItem onClick={() => handleClose('/profile')}>My Profile</MenuItem>
-        <MenuItem onClick={() => handleClose('/create-profile')}>
+        <MenuItem onClick={() => handleClose('/create-employee-profile')}>
           Create Profile
         </MenuItem>
-        <MenuItem onClick={logOut}>Logout</MenuItem>
+        <MenuItem onClick={() => logOut()}>Logout</MenuItem>
       </Menu>
-      <hr></hr>
-      <Internship />
     </div>
   );
 };
 
-export default User;
+export default EmployeeHeader;

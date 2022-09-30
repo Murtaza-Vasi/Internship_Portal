@@ -2,35 +2,16 @@ import React, { useState } from 'react';
 import { Grid, Typography, InputBase } from '@material-ui/core';
 
 import FromContainer from './FromContainer';
-import useStyles from '../styles/CreateProfile';
+import useStyles from '../styles/User/ProfileForm';
 
 const NameDescriptionFrom = ({
   name,
-  history,
   nameValue,
   nameValueChangeHandler,
   descValue,
   descValueChangeHandler,
 }) => {
   const classes = useStyles();
-
-  let updateName;
-  let updateDescription;
-
-  const findUpdateName = () => {
-    if (name === 'education') {
-      updateName = 'university';
-      updateDescription = 'edescription';
-    } else if (name === 'project') {
-      updateName = 'projectname';
-      updateDescription = 'pdescription';
-    } else if (name === 'certification') {
-      updateName = 'certiname';
-      updateDescription = 'cdescription';
-    }
-  };
-
-  findUpdateName();
 
   return (
     <div>

@@ -16,7 +16,7 @@ const employeeSchema = mongoose.Schema(
       type: String,
       require: true,
     },
-    profileInfo: {
+    companyInfo: {
       companyName: {
         type: String,
       },
@@ -30,7 +30,7 @@ const employeeSchema = mongoose.Schema(
         type: String,
       },
     },
-    jobsPosted: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Employee' }],
+    jobsPosted: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Job' }],
   },
   {
     timeStamps: true,

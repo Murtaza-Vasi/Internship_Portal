@@ -4,11 +4,11 @@ import {
   Grid,
   TextField,
   Typography,
-} from "@material-ui/core";
-import React from "react";
-import NearMeIcon from "@material-ui/icons/NearMe";
-import contact from "../images/contact.png";
-import useStyles from "../styles/Contact";
+} from '@material-ui/core';
+import React from 'react';
+import NearMeIcon from '@material-ui/icons/NearMe';
+import contact from '../images/contact.png';
+import useStyles from '../styles/Contact';
 
 const ContactUsScreen = () => {
   const classes = useStyles();
@@ -16,7 +16,7 @@ const ContactUsScreen = () => {
   return (
     <div className={classes.root}>
       <Container>
-        <Grid container spacing={3} justify="space-between">
+        <Grid container spacing={3} justify='space-between'>
           <Grid item xs={12} lg={6} md={7} sm={7}>
             <img className={classes.image} src={contact} alt='ContactUsImage' />
           </Grid>
@@ -29,59 +29,59 @@ const ContactUsScreen = () => {
                 <Grid item xs={6} lg={6}>
                   <TextField
                     className={classes.text}
-                    variant="filled"
-                    margin="normal"
+                    variant='filled'
+                    margin='normal'
                     required
                     fullWidth
-                    id="fname"
-                    label="First Name"
-                    name="fname"
+                    id='fname'
+                    label='First Name'
+                    name='fname'
                   />
                 </Grid>
                 <Grid item xs={6} lg={6}>
                   <TextField
                     className={classes.text}
-                    variant="filled"
-                    margin="normal"
+                    variant='filled'
+                    margin='normal'
                     required
                     fullWidth
-                    id="lname"
-                    label="Last Name"
-                    name="lname"
+                    id='lname'
+                    label='Last Name'
+                    name='lname'
                   />
                 </Grid>
               </Grid>
               <TextField
                 className={classes.text}
-                variant="filled"
-                margin="normal"
+                variant='filled'
+                margin='normal'
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
+                id='email'
+                label='Email Address'
+                name='email'
               />
               <TextField
-                variant="filled"
-                margin="normal"
+                variant='filled'
+                margin='normal'
                 required
                 fullWidth
-                name="message"
-                label="Message"
-                type="password"
-                id="message"
+                name='message'
+                label='Message'
+                type='password'
+                id='message'
                 multiline
                 rows={5}
                 className={classes.text}
               />
               <br></br>
               <Button
-                color="secondary"
-                type="submit"
-                variant="contained"
+                color='secondary'
+                type='submit'
+                variant='contained'
                 className={classes.submit}
               >
-                <Typography style={{ marginRight: 8 }}>SEND</Typography>{" "}
+                <Typography style={{ marginRight: 8 }}>SEND</Typography>{' '}
                 <NearMeIcon />
               </Button>
             </form>

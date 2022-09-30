@@ -30,6 +30,10 @@ const jobSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
+    skills: [{
+      type: String,
+      require: true
+    }]
   },
   {
     timestamps: true,

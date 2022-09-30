@@ -14,8 +14,10 @@ import Internship from './screens/InternshipScreen';
 import Profile from './screens/ProfileScreen';
 import JobPostScreen from './screens/JobPostScreen';
 import CreateProfileScreen from './screens/CreateProfileScreen';
+import EmployeeCreateProfileScreen from './screens/EmployeeCreateProfileScreen';
+import EmployeeHomeScreen from './screens/EmployeeHomeScreen';
+import PostedInternshipScreen from './screens/PostedInternshipScreen';
 
-import CreateProfile from './components/User/CreateProfile/CreateProfile';
 import User from './components/User/User';
 
 function App() {
@@ -50,6 +52,15 @@ function App() {
             <Route path='/internship' component={Internship} />
             <Route path='/profile' component={Profile} />
             <Route path='/create-profile' component={CreateProfileScreen} />
+            <Route
+              path='/create-employee-profile'
+              component={EmployeeCreateProfileScreen}
+            />
+            <Route path='/employee' component={EmployeeHomeScreen} />
+            <Route
+              path='/posted-internship'
+              component={PostedInternshipScreen}
+            />
             <Route />
           </Switch>
         </Router>
